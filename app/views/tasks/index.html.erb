@@ -1,0 +1,48 @@
+        <div id="corpo">
+            <ul id="menu">
+                <li><a href="#">Dayane Guanabara's ToDo list</a></li>
+                <li><a href="paginas/about.html">About</a></li>
+                <li><a href="paginas/reports.html">Reports</a></li>
+                <li><a href="paginas/settings.html">Settings</a></li>
+            </ul>
+            <br class="clear" />
+            <div id="primeiro" class="box">
+            	<h2 id="todo-grande">ToDo</h2>
+                <div class="list">
+                	<ul id="inicio">
+						<% @tasks.each do |tasks| %>
+							<li><a href="#"></a><%= tasks.description %>.</li>  
+					<% end %>
+                    </ul>
+                    <a href="#" id="new">start</a>
+                </div>
+            </div>
+            <div class="box">
+            	<h2 id="doing-grande">Doing</h2>
+                <div class="list">
+                	<ul id="meio">
+                    	<li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li>  
+                        <li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li> 
+                        <li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li> 
+                        <li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li>
+                        <li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li>  
+                        <li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li>               
+                    </ul>
+                </div>
+            </div>
+            <div class="box">
+            	<h2 id="done-grande">Done</h2>
+                <div class="list">
+                	<ul id="final">
+                    	<li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li>  
+                        <li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li> 
+                        <li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li> 
+                        <li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li> 
+                        <li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li>                
+                    </ul>
+                    <a href="#" id="historico">history</a>
+                </div>
+            </div>
+        </div>          
+
+
