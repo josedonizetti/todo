@@ -93,7 +93,7 @@ p.sobre { font-weight:bold; text-align:right; }
 .list ul { width:220px; padding:10px; line-height:17px; }
 .list li:hover { background-color:#E4ECF1; }
 .list a:hover { background-color:#E4ECF1; }
-.list li { float:left; padding:2px; margin:0px 0px 10px; font-size:0.55em; font-weight:bold; color:#616C72; border:0px; }
+.list li { padding:2px; margin:0px 0px 10px; font-size:0.55em; font-weight:bold; color:#616C72; border:0px; }
 .list a { width:23px; height:22px; float:right; display:block; margin-left:10px; background:url(../img/icones.png) -12px -507px no-repeat; }
 
 #inicio a { background-position:-11px -507px; }

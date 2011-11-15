@@ -1,4 +1,7 @@
 Todo::Application.routes.draw do
+  #match "/tasks/:id.:format" => "tasks#show", :via => :get
+  match "/tasks" => "tasks#update", :via => :put
+  resources :tasks
   root :to => "tasks#index"
   # The priority is based upon order of creation:
   # first created -> highest priority.

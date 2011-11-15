@@ -10,23 +10,27 @@
             	<h2 id="todo-grande">ToDo</h2>
                 <div class="list">
                 	<ul id="inicio">
-						<% @tasks.each do |tasks| %>
-							<li><a href="#"></a><%= tasks.description %>.</li>  
-					<% end %>
+						<%= form_for :task, :method => :put do %>
+							<% @tasks.each do |t| %>
+								<li data-json-url="/tasks/<%=t.id%>.json"><a href="#"></a><%= t.description %>.</li>  
+							<% end %>
+							<%= submit_tag "enviar" %>
+						<% end %>
+						<li>
+							<%= form_for @task do |t| %>
+								<%= t.text_field :description, :id => "description" %>
+							<% end %>
+						</li>
                     </ul>
-                    <a href="#" id="new">start</a>
                 </div>
             </div>
             <div class="box">
             	<h2 id="doing-grande">Doing</h2>
                 <div class="list">
                 	<ul id="meio">
-                    	<li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li>  
-                        <li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li> 
-                        <li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li> 
-                        <li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li>
-                        <li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li>  
-                        <li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li>               
+						<% @tasks.each do |tasks| %>
+							<li><a href="#"></a><%= tasks.description %>.</li>  
+						<% end %>
                     </ul>
                 </div>
             </div>
@@ -34,15 +38,15 @@
             	<h2 id="done-grande">Done</h2>
                 <div class="list">
                 	<ul id="final">
-                    	<li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li>  
-                        <li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li> 
-                        <li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li> 
-                        <li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li> 
-                        <li><a href="#"></a> Lorem Ipsum é uma texto simulação de texto.</li>                
+						<% @tasks.each do |tasks| %>
+							<li><a href="#"></a><%= tasks.description %>.</li>  
+						<% end %>
                     </ul>
                     <a href="#" id="historico">history</a>
                 </div>
             </div>
         </div>          
 
-
+	<script type="text/html" id="task_input">
+		<input type='text' name='task_{{id}}' value='{{description}}'><a href='#'></a>
+	</script>
