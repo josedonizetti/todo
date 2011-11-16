@@ -35,7 +35,6 @@ $(document).ready(function() {
 	});
 
 	var finish_link = function(){
-		alert("doni");
 		var li = $(this).parent();	
 			var json = $.getJSON($(li).data("json-url"),function(json){
 				$.ajax({
