@@ -1,14 +1,17 @@
 class TasksController < ApplicationController
+    
+    before_filter :authenticate_user! 
 
 	def index
 		@task = Task.new
-		@not_started_tasks = Task.find_all_by_started false
-		@started_tasks = Task.where ["started = ? AND finished_date is null", true]
-		@finished_tasks = Task.where ["started = ? AND finished_date is not null", true]
+		@not_started_tasks = Task.where ["started = ?  AND user_id = ?",false,current_user.id]
+		@started_tasks = Task.where ["started = ? AND user_id = ? AND finished_date is null", true,current_user.id]
+		@finished_tasks = Task.where ["started = ? AND user_id = ? AND finished_date is not null", true, current_user.id]
 	end
 
 	def create
 		@task = Task.new params[:task]
+        @task.user = current_user
 		if @task.save
 			redirect_to :action => "index"
 		else
@@ -47,8 +50,6 @@ class TasksController < ApplicationController
     def finish
       task = Task.find params[:id]
       task.update_attributes :finished_date => Date.new
-      puts "oi malandro"
-      puts task.finished_date
       render :nothing => true
     end
 end
