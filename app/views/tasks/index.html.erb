@@ -28,8 +28,8 @@
                 <div class="list">
                 	<ul id="meio">
                       <% if not @started_tasks.empty? %>
-						<% @started_tasks.each do |tasks| %>
-							<li><a href="#"></a><%= tasks.description %>.</li>  
+						<% @started_tasks.each do |t| %>
+                          <li data-json-url="/tasks/<%=t.id%>.json"><a href="#" class="finish_link"></a><%= t.description %>.</li>  
 						<% end %>
                       <% else %>
                       <% end %>
@@ -40,8 +40,8 @@
             	<h2 id="done-grande">Done</h2>
                 <div class="list">
                 	<ul id="final">
-						<% @finished_tasks.each do |tasks| %>
-							<li><a href="#"></a><%= tasks.description %>.</li>  
+						<% @finished_tasks.each do |t| %>
+							<li><a href="#"></a><%= t.description %>.</li>  
 						<% end %>
                     </ul>
                     <a href="#" id="historico">history</a>

@@ -3,8 +3,8 @@ class TasksController < ApplicationController
 	def index
 		@task = Task.new
 		@not_started_tasks = Task.find_all_by_started false
-		@started_tasks = Task.find_all_by_started true
-		@finished_tasks = []
+		@started_tasks = Task.where ["started = ? AND finished_date is null", true]
+		@finished_tasks = Task.where ["started = ? AND finished_date is not null", true]
 	end
 
 	def create
@@ -46,7 +46,9 @@ class TasksController < ApplicationController
 
     def finish
       task = Task.find params[:id]
-      task.update_attributes :finished_date => now
+      task.update_attributes :finished_date => Date.new
+      puts "oi malandro"
+      puts task.finished_date
       render :nothing => true
     end
 end

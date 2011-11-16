@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(:version => 20111116044348) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "started",       :default => false
-    t.date     "finished_date"
+    t.datetime "finished_date"
   end
 
 end

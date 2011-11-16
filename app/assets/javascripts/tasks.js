@@ -51,4 +51,20 @@ $(document).ready(function() {
 			});
 		}
 	});
+
+	$(".finish_link").click(function(){
+		var li = $(this).parent();	
+			var json = $.getJSON($(li).data("json-url"),function(json){
+				$.ajax({
+					url: "/tasks/finish",
+					type: "POST",
+					data: {"id":json.id},
+					success: function(){
+						$(li).fadeOut();
+						$("#final").append(Mustache.to_html($("#li").html(),json));
+					}
+				});	
+			});
+	});
+
 });
