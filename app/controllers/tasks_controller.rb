@@ -15,7 +15,12 @@ class TasksController < ApplicationController
 	end
 
 	def update
-		puts params[:description]
+		tasks = params[:tasks]
+        tasks.each do |key,value|
+          task = Task.find key
+          task.description = value
+          task.save
+        end
 		redirect_to :action => :index
 	end
 
@@ -25,4 +30,9 @@ class TasksController < ApplicationController
 			format.json {  render :json => @task}
 		end
 	end
+
+    def destroy
+      Task.delete params[:id]
+      render :nothing => true
+    end
 end

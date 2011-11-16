@@ -10,11 +10,10 @@
             	<h2 id="todo-grande">ToDo</h2>
                 <div class="list">
                 	<ul id="inicio">
-						<%= form_for :task, :method => :put do %>
+                      <%= form_for :task,:html => { :id => "edit_form" } ,:method => :put do %>
 							<% @tasks.each do |t| %>
 								<li data-json-url="/tasks/<%=t.id%>.json"><a href="#"></a><%= t.description %>.</li>  
 							<% end %>
-							<%= submit_tag "enviar" %>
 						<% end %>
 						<li>
 							<%= form_for @task do |t| %>
@@ -48,5 +47,5 @@
         </div>          
 
 	<script type="text/html" id="task_input">
-		<input type='text' name='task_{{id}}' value='{{description}}'><a href='#'></a>
+      <input type='text' id='tasks[{{id}}]' name='tasks[{{id}}]' value='{{description}}'>
 	</script>

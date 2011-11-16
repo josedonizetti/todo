@@ -1,5 +1,6 @@
 Todo::Application.routes.draw do
   #match "/tasks/:id.:format" => "tasks#show", :via => :get
+  match "/tasks" => "tasks#destroy", :via => :delete
   match "/tasks" => "tasks#update", :via => :put
   resources :tasks
   root :to => "tasks#index"
