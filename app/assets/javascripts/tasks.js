@@ -33,7 +33,23 @@ $(document).ready(function() {
 		});
 
 	});
-	
+
+	var finish_link = function(){
+		alert("doni");
+		var li = $(this).parent();	
+			var json = $.getJSON($(li).data("json-url"),function(json){
+				$.ajax({
+					url: "/tasks/finish",
+					type: "POST",
+					data: {"id":json.id},
+					success: function(){
+						$(li).fadeOut();
+						$("#final").append(Mustache.to_html($("#li").html(),json));
+					}
+				});	
+			});
+	}
+
 	$(".start_link").click(function(){
 		var li = $(this).parent();	
 		var lis  = $("#meio").children();
@@ -45,30 +61,15 @@ $(document).ready(function() {
 					data: {"id":json.id},
 					success: function(){
 						$(li).fadeOut();
-						json.class = "finish_link";
+						json.class = "finish_class";
 						$("#meio").append(Mustache.to_html($("#li").html(),json));
+						$($("#meio li").last().children()).click(finish_link);
 					}
 				});	
 			});
 		}
 	});
-
-	function finish_link (){
-		var li = $(this).parent();	
-			var json = $.getJSON($(li).data("json-url"),function(json){
-				$.ajax({
-					url: "/tasks/finish",
-					type: "POST",
-					data: {"id":json.id},
-					success: function(){
-						$(li).fadeOut();
-						json.class = "clear_link";
-						$("#final").append(Mustache.to_html($("#li").html(),json));
-					}
-				});	
-			});
-	});
-
+    
 	$(".finish_link").click(finish_link);
 
 });

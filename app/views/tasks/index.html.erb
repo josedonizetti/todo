@@ -54,9 +54,5 @@
 	</script>
 
     <script type="text/html" id="li">
-      <li>{{description}}{{link}}</li>
-    </script>
-
-    <script type="text/html" id="link">
-      <a href="#" class="{{class}}">
+      <li data-json-url="/tasks/{{id}}.json">{{description}}<a href="#" class="{{class}}"></a></li>
     </script>
