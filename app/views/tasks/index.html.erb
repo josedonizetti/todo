@@ -11,8 +11,8 @@
                 <div class="list">
                 	<ul id="inicio">
                       <%= form_for :task,:html => { :id => "edit_form" } ,:method => :put do %>
-							<% @tasks.each do |t| %>
-								<li data-json-url="/tasks/<%=t.id%>.json"><a href="#"></a><%= t.description %>.</li>  
+							<% @not_started_tasks.each do |t| %>
+								<li data-json-url="/tasks/<%=t.id%>.json"><a class="start_link" href="#"></a><%= t.description %>.</li>  
 							<% end %>
 						<% end %>
 						<li>
@@ -27,9 +27,13 @@
             	<h2 id="doing-grande">Doing</h2>
                 <div class="list">
                 	<ul id="meio">
-						<% @tasks.each do |tasks| %>
+                      <% if not @started_tasks.empty? %>
+						<% @started_tasks.each do |tasks| %>
 							<li><a href="#"></a><%= tasks.description %>.</li>  
 						<% end %>
+                      <% else %>
+                        <p>Not doing any!</p>
+                      <% end %>
                     </ul>
                 </div>
             </div>
@@ -37,7 +41,7 @@
             	<h2 id="done-grande">Done</h2>
                 <div class="list">
                 	<ul id="final">
-						<% @tasks.each do |tasks| %>
+						<% @finished_tasks.each do |tasks| %>
 							<li><a href="#"></a><%= tasks.description %>.</li>  
 						<% end %>
                     </ul>
@@ -49,3 +53,7 @@
 	<script type="text/html" id="task_input">
       <input type='text' id='tasks[{{id}}]' name='tasks[{{id}}]' value='{{description}}'>
 	</script>
+
+    <script type="text/html" id="li">
+      <li>{{description}}<a href="#"></a></li>
+    </script>

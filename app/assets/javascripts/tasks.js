@@ -17,17 +17,36 @@ $(document).ready(function() {
 					}
 				});
 			});
+
 			$(li).append(delete_link);
+
 		    $(input).keypress(function(key){
+				// 13 == enter
 				if(key.which == 13){
 					alert("aqui");
 					$("#edit_form").submit();	
 					return false;
 				}
+
+				// esc == ???
 				return true;
 			}); 	
 		});
 
 	});
-
+	
+	$(".start_link").click(function(){
+		var li = $(this).parent();	
+		var json = $.getJSON($(li).data("json-url"),function(json){
+			$.ajax({
+				url: "/tasks/start",
+				type: "POST",
+				data: {"id":json.id},
+				success: function(){
+					$(li).fadeOut();
+					$("#meio").append(Mustache.to_html($("#li").html(),json));
+				}
+			});	
+		});
+	});
 });

@@ -2,7 +2,9 @@ class TasksController < ApplicationController
 
 	def index
 		@task = Task.new
-		@tasks = Task.all
+		@not_started_tasks = Task.find_all_by_started false
+		@started_tasks = Task.find_all_by_started true
+		@finished_tasks = []
 	end
 
 	def create
@@ -33,6 +35,12 @@ class TasksController < ApplicationController
 
     def destroy
       Task.delete params[:id]
+      render :nothing => true
+    end
+
+    def start
+      task = Task.find params[:id] 
+      task.update_attributes :started => true
       render :nothing => true
     end
 end
