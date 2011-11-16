@@ -23,7 +23,6 @@ $(document).ready(function() {
 		    $(input).keypress(function(key){
 				// 13 == enter
 				if(key.which == 13){
-					alert("aqui");
 					$("#edit_form").submit();	
 					return false;
 				}
@@ -37,16 +36,19 @@ $(document).ready(function() {
 	
 	$(".start_link").click(function(){
 		var li = $(this).parent();	
-		var json = $.getJSON($(li).data("json-url"),function(json){
-			$.ajax({
-				url: "/tasks/start",
-				type: "POST",
-				data: {"id":json.id},
-				success: function(){
-					$(li).fadeOut();
-					$("#meio").append(Mustache.to_html($("#li").html(),json));
-				}
-			});	
-		});
+		var lis  = $("#meio").children();
+		if(lis.size() < 4){
+			var json = $.getJSON($(li).data("json-url"),function(json){
+				$.ajax({
+					url: "/tasks/start",
+					type: "POST",
+					data: {"id":json.id},
+					success: function(){
+						$(li).fadeOut();
+						ul_meio.append(Mustache.to_html($("#li").html(),json));
+					}
+				});	
+			});
+		}
 	});
 });
