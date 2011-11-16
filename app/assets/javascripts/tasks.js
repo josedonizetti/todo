@@ -45,7 +45,7 @@ $(document).ready(function() {
 					data: {"id":json.id},
 					success: function(){
 						$(li).fadeOut();
-						ul_meio.append(Mustache.to_html($("#li").html(),json));
+						$("#meio").append(Mustache.to_html($("#li").html(),json));
 					}
 				});	
 			});

@@ -43,4 +43,10 @@ class TasksController < ApplicationController
       task.update_attributes :started => true
       render :nothing => true
     end
+
+    def finish
+      task = Task.find params[:id]
+      task.update_attributes :finished_date => now
+      render :nothing => true
+    end
 end

@@ -2,6 +2,10 @@ class Task < ActiveRecord::Base
 
   validate :validate_4_tasks_at_most
 
+  def finished?
+    not finished_date.nil?
+  end
+
   private
   def validate_4_tasks_at_most
     tasks = Task.find_all_by_started true
