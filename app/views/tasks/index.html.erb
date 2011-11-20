@@ -15,7 +15,7 @@
 								<li data-json-url="/tasks/<%=t.id%>.json"><a class="start_link" href="#"></a><%= t.description %>.</li>  
 							<% end %>
 						<% end %>
-						<li>
+						<li id="li_description">
 							<%= form_for @task do |t| %>
 								<%= t.text_field :description, :id => "description" %>
 							<% end %>
