@@ -4,7 +4,7 @@ class TasksController < ApplicationController
 
 	def index
 		@task = Task.new
-		@not_started_tasks = Task.where ["started = ?  AND user_id = ?",false,current_user.id]
+		@not_started_tasks = Task.where ["user_id = ?",current_user.id]
 		@started_tasks = Task.where ["started = ? AND user_id = ? AND finished_date is null", true,current_user.id]
 		@finished_tasks = Task.where ["started = ? AND user_id = ? AND finished_date is not null", true, current_user.id]
 	end
