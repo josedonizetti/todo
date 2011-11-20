@@ -88,12 +88,12 @@ p.sobre { font-weight:bold; text-align:right; }
 .list li { padding:2px; margin:0px 0px 10px; font-size:0.55em; font-weight:bold; color:#616C72; border:0px; }
 .list a { width:23px; height:22px; float:right; display:block; margin-left:10px; background:url(/assets/icones.png) -12px -507px no-repeat; }
 
-#inicio a { background-position:-11px -507px; }
-#inicio a:hover { background-position:-37px  -507px; }
-#meio a { background-position:-11px -482px; }
-#meio a:hover { background-position:-39px  -482px; }
-#final a { background-position:-11px -456px; }
-#final a:hover { background-position:-39px -456px; }
+#inicio a { background-position:-11px -510px; }
+#inicio a:hover { background-position:-37px  -510px; }
+#meio a { background-position:-11px -483px; }
+#meio a:hover { background-position:-39px  -483px; }
+#final a { background-position:-11px -458px; }
+#final a:hover { background-position:-39px -458px; }
 
 a#new { right:36%; }
 #new, #historico { height:21px; width:70px; margin-left:0px; padding-top:3px; background-color:#1B79A8; text-align:center; color:#FFFFFF; cursor:pointer; font-size: 0.65em; font-weight:bold; position:absolute; right:35%; bottom:10px; background-image:none; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px;  border:1px solid #1B79A8;}
