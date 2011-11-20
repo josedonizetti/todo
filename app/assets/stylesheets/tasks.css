@@ -102,6 +102,15 @@ a#new { right:36%; }
 a#delete { background-position:-11px -456px;  }
 a#delete:hover { background-position:-11px  -456px; }
 
+#description{
+	background-color:#E4ECF1;
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	border-bottom: 0px;
+
+}
+
 /* #mais { width:25px; height:25px; display:block; position:absolute; right:10px; bottom:10px; text-indent:-9999px; background:url(/assets/icones.png) -12px -535px; }
 #mais:hover { background-position:-38px -535px; }
 #historico { width:25px; height:35px; display:block; position:absolute; right:10px; bottom:10px; text-indent:-9999px; background:url(/assets/icones.png) -38px -559px; }
