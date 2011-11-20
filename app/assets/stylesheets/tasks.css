@@ -86,13 +86,13 @@ p.sobre { font-weight:bold; text-align:right; }
 .list li:hover { background-color:#E4ECF1; }
 .list a:hover { background-color:#E4ECF1; }
 .list li { padding:2px; margin:0px 0px 10px; font-size:0.55em; font-weight:bold; color:#616C72; border:0px; }
-.list a { width:23px; height:22px; float:right; display:block; margin-left:10px; background:url(/assets/icones.png) -12px -507px no-repeat; }
+.list a { width:23px; height:19px; float:right; display:block; margin-left:10px; background:url(/assets/icones.png) -12px -507px no-repeat; }
 
-#inicio a { background-position:-11px -510px; }
+#inicio a { background-position:-12px -510px; }
 #inicio a:hover { background-position:-37px  -510px; }
 #meio a { background-position:-11px -483px; }
 #meio a:hover { background-position:-39px  -483px; }
-#final a { background-position:-11px -458px; }
+#final a { background-position:-10px -458px; }
 #final a:hover { background-position:-39px -458px; }
 
 a#new { right:36%; }
