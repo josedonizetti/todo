@@ -1,26 +1,20 @@
-var input_template = {}
-var delete_template = {}
+var getTask = function(url,success,failure){
+	$.getJSON(url)
+		.success(success)
+		.error(failure);
+}
 
-var deleteTaskAjaxRequest = function(id,success){
-	$.ajax({
-		url: "/tasks",
-		type: "POST",
-		data: {
-			"id": id,
-			"_method":"DELETE"
-		},
-		success: success;
-	});
-} 
+var startTask = function(id,success,failure){
 
-var getTaskAjaxRequest = function(id,s,f){
-	$.getJSON("/tasks/200.json").success(s).error(f);
 }
 
 $(document).ready(function() {
 	$("#inicio li").dblclick(function(){
+
 	    var li = $(this);
-		var json = $.getJSON($(this).data("json-url"), function(json) { 
+
+		var json = getTask($(this).data("json-url"), function(json) { 
+
 			var input = $(Mustache.to_html($("#task_input").html(),json));
 			$(li).html(input);
 			var delete_link = $("<a id='delete' href='#'></a>").click(function() {
@@ -36,6 +30,7 @@ $(document).ready(function() {
 					}
 				});
 			});
+		},function(){});
 
 			$(li).append(delete_link);
 
