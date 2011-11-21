@@ -30,7 +30,6 @@ $(document).ready(function() {
 					}
 				});
 			});
-		},function(){});
 
 			$(li).append(delete_link);
 
@@ -44,7 +43,7 @@ $(document).ready(function() {
 				// esc == ???
 				return true;
 			}); 	
-		});
+		},function(){});
 
 	});
 
