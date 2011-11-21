@@ -1,3 +1,22 @@
+var input_template = {}
+var delete_template = {}
+
+var deleteTaskAjaxRequest = function(id,success){
+	$.ajax({
+		url: "/tasks",
+		type: "POST",
+		data: {
+			"id": id,
+			"_method":"DELETE"
+		},
+		success: success;
+	});
+} 
+
+var getTaskAjaxRequest = function(id,s,f){
+	$.getJSON("/tasks/200.json").success(s).error(f);
+}
+
 $(document).ready(function() {
 	$("#inicio li").dblclick(function(){
 	    var li = $(this);
