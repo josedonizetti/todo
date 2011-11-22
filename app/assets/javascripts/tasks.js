@@ -84,4 +84,20 @@ $(document).ready(function() {
     
 	$(".finish_link").click(finish_link);
 
+	var clear_link = function(){
+		var li = $(this).parent();
+		var json = $.getJSON($(li).data("json-url"),function(json){
+				$.ajax({
+					url: "/tasks/clear",
+					type: "POST",
+					data: {"id":json.id},
+					success: function(){
+						$(li).fadeOut();
+					}
+				});	
+
+			});
+	}
+
+	$(".clear_link").click(clear_link);
 });
