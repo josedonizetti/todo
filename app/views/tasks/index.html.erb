@@ -15,7 +15,7 @@
 						<% end %>
 						<li id="li_description">
 							<%= form_for @task do |t| %>
-								<%= t.text_field :description, :id => "description" %>
+                              <%= t.text_field :description, :id => "description", :placeholder => "What do you have ToDo?"%>
 							<% end %>
 						</li>
                     </ul>
