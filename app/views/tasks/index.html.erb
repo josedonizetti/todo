@@ -39,7 +39,7 @@
                 <div class="list">
                 	<ul id="final">
 						<% @finished_tasks.each do |t| %>
-							<li><a href="#"></a><%= t.description %>.</li>  
+                          <li data-json-url="/tasks/<%=t.id%>.json"><a class="clear_link" href="#"></a><%= t.description %>.</li>  
 						<% end %>
                     </ul>
                     <!-- <a href="#" id="historico">history</a> -->
