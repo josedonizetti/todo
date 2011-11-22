@@ -2,6 +2,7 @@ Todo::Application.routes.draw do
   devise_for :users
 
   #match "/tasks/:id.:format" => "tasks#show", :via => :get
+  match "tasks/clear" => "tasks#clear", :via => :post
   match "/tasks/finish" => "tasks#finish", :via => :post
   match "/tasks/start" => "tasks#start", :via => :post
   match "/tasks" => "tasks#destroy", :via => :delete
