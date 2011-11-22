@@ -38,7 +38,7 @@ group :test, :development do
 	gem 'jasmine'
 	gem 'rspec-rails'
 	gem 'capybara'
-	gem 'launchy'
+	gem 'database_cleaner'
 end
 
 group :test do
