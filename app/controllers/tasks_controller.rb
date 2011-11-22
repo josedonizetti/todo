@@ -52,4 +52,10 @@ class TasksController < ApplicationController
       task.update_attributes :finished_date => DateTime.now
       render :nothing => true
     end
+
+    def clear
+      task = Task.find params[:id]
+      task.update_attributes :clear => true
+      render :nothing => true
+    end
 end
