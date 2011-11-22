@@ -4,9 +4,9 @@ class TasksController < ApplicationController
 
 	def index
 		@task = Task.new
-		@not_started_tasks = Task.where ["started = ? AND user_id = ?",false,current_user.id]
-		@started_tasks = Task.where ["started = ? AND user_id = ? AND finished_date is null", true,current_user.id]
-		@finished_tasks = Task.where ["started = ? AND user_id = ? AND finished_date is not null", true, current_user.id]
+		@not_started_tasks = Task.where ["started = ? AND visible = ? AND user_id = ?",false,true,current_user.id]
+		@started_tasks = Task.where ["started = ? AND visible = ? AND user_id = ? AND finished_date is null",true,true,current_user.id]
+		@finished_tasks = Task.where ["started = ? AND visible =? AND user_id = ? AND finished_date is not null", true,true,current_user.id]
 	end
 
 	def create
@@ -55,7 +55,7 @@ class TasksController < ApplicationController
 
     def clear
       task = Task.find params[:id]
-      task.update_attributes :clear => true
+      task.update_attributes :visible => true
       render :nothing => true
     end
 end
