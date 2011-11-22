@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(:version => 20111122121759) do
     t.boolean  "started",       :default => false
     t.datetime "finished_date"
     t.integer  "user_id"
-    t.boolean  "visible",       :default => false
+    t.boolean  "visible",       :default => true
   end
 
   create_table "users", :force => true do |t|
