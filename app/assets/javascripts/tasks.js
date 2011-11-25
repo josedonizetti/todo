@@ -4,6 +4,17 @@ $.getJSON(url)
 	.error(failure);
 }
 
+var ajaxRequest = function(url,verb,data,successFunction){
+		return function(){
+			$.ajax({
+				url:url,
+				type:verb,
+				data:data,
+				success:successFunction
+			});
+		}
+}
+
 var edit_task = function(){
 
 	var li = $(this);
@@ -12,19 +23,14 @@ var edit_task = function(){
 
 		var input = $(Mustache.to_html($("#task_input").html(),json));
 		$(li).html(input);
-		var delete_link = $("<a id='delete' href='#'></a>").click(function() {
-			$.ajax({
-				url: "/tasks",
-				type: "POST",
-				data: {
-					"id": json.id,
-					"_method":"DELETE"
-				},
-				success: function(){
-					 $(li).fadeOut();
-				}
-			});
-		});
+		var delete_link = $("<a id='delete' href='#'></a>");
+		delete_link.click(ajaxRequest("/tasks",
+										 "POST",
+										 {"id":json.id,"_method":"DELETE"},
+										 function(){
+											 $(li).fadeOut();
+										 })
+										);
 
 		$(li).append(delete_link);
 
