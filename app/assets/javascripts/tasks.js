@@ -71,7 +71,6 @@ var start_link = function(){
 		getTask($(li).data("json-url"),function(json){
 			ajaxRequest("/tasks/start","POST",{"id":json.id},function(){
 					$(li).fadeOut();
-					json.class = "finish_class";
 					$("#meio").append(Mustache.to_html($("#li").html(),json));
 					$($("#meio li").last().children()).click(finish_link);
 				})();
