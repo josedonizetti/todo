@@ -23,7 +23,7 @@ var edit_task = function(){
 		return true;
 	}
 
-	var json = getTask($(this).data("json-url"), function(json) { 
+	getTask($(this).data("json-url"), function(json) { 
 
 		var input = $(Mustache.to_html($("#task_input").html(),json));
 		$(li).html(input);
@@ -47,43 +47,34 @@ var edit_task = function(){
 
 var clear_link = function(){
 	var li = $(this).parent();
-	var json = $.getJSON($(li).data("json-url"),function(json){
+	getTask($(li).data('json-url'),function(json){
 			ajaxRequest('/tasks/clear','POST',{"id":json.id},function(){$(li).fadeOut();})();
-		});
+	});
 }
 
 var finish_link = function(){
 	var li = $(this).parent();	
-		var json = $.getJSON($(li).data("json-url"),function(json){
-			$.ajax({
-				url: "/tasks/finish",
-				type: "POST",
-				data: {"id":json.id},
-				success: function(){
-					$(li).fadeOut();
-					$("#final").append(Mustache.to_html($("#li").html(),json));
-					$($("#final li").last().children()).click(clear_link);
-				}
-			});	
+		getTask($(li).data("json-url"),function(json){
+			ajaxRequest("/tasks/finish",'POST',{'id':json.id},function(){
+				$(li).fadeOut();
+				$("#final").append(Mustache.to_html($("#li").html(),json));
+				$($("#final li").last().children()).click(clear_link);
+			
+			})();
 		});
 }
 
 var start_link = function(){
 	var li = $(this).parent();	
 	var lis  = $("#meio").children();
-	if(lis.size() < 4){
-		var json = $.getJSON($(li).data("json-url"),function(json){
-			$.ajax({
-				url: "/tasks/start",
-				type: "POST",
-				data: {"id":json.id},
-				success: function(){
+	if(lis.size() <= 4){
+		getTask($(li).data("json-url"),function(json){
+			ajaxRequest("/tasks/start","POST",{"id":json.id},function(){
 					$(li).fadeOut();
 					json.class = "finish_class";
 					$("#meio").append(Mustache.to_html($("#li").html(),json));
 					$($("#meio li").last().children()).click(finish_link);
-				}
-			});	
+				})();
 		});
 	} else {
 		alert("vc tem tarefas de mais em fazendo, termine elas antes");
