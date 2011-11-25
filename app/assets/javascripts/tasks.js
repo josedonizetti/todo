@@ -18,19 +18,17 @@ var ajaxRequest = function(url,verb,data,successFunction){
 var edit_task = function(){
 
 	var li = $(this);
+	// if an input already exist doubleclick should do the act as default
+	if(li.has('input').length == 1){
+		return true;
+	}
 
 	var json = getTask($(this).data("json-url"), function(json) { 
 
 		var input = $(Mustache.to_html($("#task_input").html(),json));
 		$(li).html(input);
 		var delete_link = $("<a id='delete' href='#'></a>");
-		delete_link.click(ajaxRequest("/tasks",
-										 "POST",
-										 {"id":json.id,"_method":"DELETE"},
-										 function(){
-											 $(li).fadeOut();
-										 })
-										);
+		delete_link.click(ajaxRequest("/tasks","POST",{"id":json.id,"_method":"DELETE"},function(){$(li).fadeOut();}));
 
 		$(li).append(delete_link);
 
@@ -40,7 +38,6 @@ var edit_task = function(){
 				$("#edit_form").submit();	
 				return false;
 			}
-
 			// esc == ???
 			return true;
 		}); 	
@@ -51,15 +48,7 @@ var edit_task = function(){
 var clear_link = function(){
 	var li = $(this).parent();
 	var json = $.getJSON($(li).data("json-url"),function(json){
-			$.ajax({
-				url: "/tasks/clear",
-				type: "POST",
-				data: {"id":json.id},
-				success: function(){
-					$(li).fadeOut();
-				}
-			});	
-
+			ajaxRequest('/tasks/clear','POST',{"id":json.id},function(){$(li).fadeOut();})();
 		});
 }
 
