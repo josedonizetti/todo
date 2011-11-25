@@ -4,12 +4,8 @@ var getTask = function(url,success,failure){
 		.error(failure);
 }
 
-var startTask = function(id,success,failure){
-
-}
-
 $(document).ready(function() {
-	$("#inicio li").dblclick(function(){
+	var edit_task = function(){
 
 	    var li = $(this);
 
@@ -43,9 +39,9 @@ $(document).ready(function() {
 				// esc == ???
 				return true;
 			}); 	
-		},function(){});
+		});
 
-	});
+	}
 
 	var clear_link = function(){
 		var li = $(this).parent();
@@ -78,7 +74,7 @@ $(document).ready(function() {
 			});
 	}
 
-	$(".start_link").click(function(){
+	var start_link = function(){
 		var li = $(this).parent();	
 		var lis  = $("#meio").children();
 		if(lis.size() < 4){
@@ -95,9 +91,13 @@ $(document).ready(function() {
 					}
 				});	
 			});
+		} else {
+			alert("vc tem tarefas de mais em fazendo, termine elas antes");
 		}
-	});
+	}
     
+	$("#inicio li").dblclick(edit_task);
+	$(".start_link").click(start_link);
 	$(".finish_link").click(finish_link);
 	$(".clear_link").click(clear_link);
 });
