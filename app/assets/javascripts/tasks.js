@@ -82,7 +82,7 @@ Task.finish = function(){
 	});
 }
 
-Task.start = function(){
+/*Task.start = function(){
 	var li = $(this).parent();	
 	var lis  = $("#meio").children();
 	if(lis.size() <= 4){
@@ -98,7 +98,52 @@ Task.start = function(){
 	} else {
 		alert("vc tem tarefas de mais em fazendo, termine elas antes");
 	}
+}*/
+
+var URLs = {}
+URLs.START = '/tasks/start'
+URLs.FINISH = '/tasks/finish'
+URLs.CLEAR = '/tasks/clear'
+
+var Li = {};
+Li.remove = function(li,url,callback,data){
+		Task.get(li.data("json-url"),function(json){
+			
+			if(!data) { 
+				data = {};
+			}
+
+			data.id = json.id;
+
+			var ajax = new Request(url,data,function(){
+					li.fadeOut();
+					if(callback && (typeof callback == 'function')){
+						callback.call(this,json);
+					}
+			});
+
+			ajax.execute();
+		});
+};
+
+Li.create = function(div_id){
+	return function(json){
+		var newLi = new Template($('#li'),json).getAsJQueryElement();
+		$('#' + div_id).append(newLi);
+		$('#' + div_id + 'li').last().children().click(Task.finish);
+	}
+};
+
+Task.start = function(){
+	var li = $(this).parent();	
+	var lis  = $("#meio").children();
+	if(lis.size() <= 4){
+		Li.remove(li,URLs.START,Li.create('meio'));
+	} else {
+		alert("vc tem tarefas de mais em fazendo, termine elas antes");
+	}
 }
+
 
 
 $(document).ready(function() {
