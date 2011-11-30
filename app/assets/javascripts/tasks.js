@@ -58,47 +58,6 @@ Task.edit = function(){
 
 };
 
-Task.clear  = function(){
-	var li = $(this).parent();
-	Task.get(li.data('json-url'),function(json){
-			var ajax = new Request('/tasks/clear',{'id':json.id},function(){ 
-				li.fadeOut();
-			});
-			ajax.execute();
-	});
-};
-
-Task.finish = function(){
-	var li = $(this).parent();	
-	Task.get(li.data("json-url"),function(json){
-		var ajax = new Request('/tasks/finish',{'id':json.id},function(){
-			li.fadeOut();
-			var newLi = new Template($('#li'),json).getAsJQueryElement();
-			$('#final').append(newLi);
-			$('#final li').last().children().click(Task.clear);
-		
-		});
-		ajax.execute();
-	});
-}
-
-/*Task.start = function(){
-	var li = $(this).parent();	
-	var lis  = $("#meio").children();
-	if(lis.size() <= 4){
-		Task.get(li.data("json-url"),function(json){
-			var ajax = new Request('/tasks/start',{'id':json.id},function(){
-					li.fadeOut();
-					var newLi = new Template($('#li'),json).getAsJQueryElement();
-					$('#meio').append(newLi);
-					$('#meio li').last().children().click(Task.finish);
-				});
-			ajax.execute();
-		});
-	} else {
-		alert("vc tem tarefas de mais em fazendo, termine elas antes");
-	}
-}*/
 
 var URLs = {}
 URLs.START = '/tasks/start'
@@ -143,6 +102,16 @@ Task.start = function(){
 		alert("vc tem tarefas de mais em fazendo, termine elas antes");
 	}
 }
+
+Task.finish = function(){
+	var li = $(this).parent();	
+	Li.remove(li,URLs.FINISH,Li.create('final'));
+}
+
+Task.clear  = function(){
+	var li = $(this).parent();
+	Li.remove(li,URLs.FINISH);
+};
 
 
 
