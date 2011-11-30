@@ -18,13 +18,13 @@ var Template = function(template,json){
 
 var Request = function(url, data, successFunction){
 	this.verb = 'POST';
-	this.ajax = function(){
-			$.ajax({
-				url:url,
-				type:'POST',
-				data:data,
-				success:successFunction
-			});
+	this.execute = function(){
+		$.ajax({
+			url:url,
+			type:'POST',
+			data:data,
+			success:successFunction
+		});
 	}
 }
 
@@ -47,11 +47,11 @@ Task.edit = function(){
 		li.html(input);
 		input.keypress(Events.keypress); 	
 
-		var request = new Request('/tasks',{'id':json.id, '_method':'DELETE'}, function(){
+		var ajax = new Request('/tasks',{'id':json.id, '_method':'DELETE'}, function(){
 			li.fadeOut();
 		});
 		var delete_link = $("<a id='delete' href='#'></a>");
-		delete_link.click(request.ajax);
+		delete_link.click(ajax.execute);
 		li.append(delete_link);
 
 	});
@@ -61,25 +61,25 @@ Task.edit = function(){
 Task.clear  = function(){
 	var li = $(this).parent();
 	Task.get(li.data('json-url'),function(json){
-			var request = new Request('/tasks/clear',{'id':json.id},function(){ 
+			var ajax = new Request('/tasks/clear',{'id':json.id},function(){ 
 				li.fadeOut();
 			});
-			request.ajax();
+			ajax.execute();
 	});
 };
 
 Task.finish = function(){
 	var li = $(this).parent();	
-		Task.get(li.data("json-url"),function(json){
-			var request = new Request('/tasks/finish',{'id':json.id},function(){
-				li.fadeOut();
-				var newLi = new Template($('#li'),json).getAsJQueryElement();
-				$('#final').append(newLi);
-				$('#final li').last().children().click(Task.clear);
-			
-			});
-			request.ajax();
+	Task.get(li.data("json-url"),function(json){
+		var ajax = new Request('/tasks/finish',{'id':json.id},function(){
+			li.fadeOut();
+			var newLi = new Template($('#li'),json).getAsJQueryElement();
+			$('#final').append(newLi);
+			$('#final li').last().children().click(Task.clear);
+		
 		});
+		ajax.execute();
+	});
 }
 
 Task.start = function(){
@@ -87,13 +87,13 @@ Task.start = function(){
 	var lis  = $("#meio").children();
 	if(lis.size() <= 4){
 		Task.get(li.data("json-url"),function(json){
-			var request = new Request('/tasks/start',{'id':json.id},function(){
+			var ajax = new Request('/tasks/start',{'id':json.id},function(){
 					li.fadeOut();
 					var newLi = new Template($('#li'),json).getAsJQueryElement();
 					$('#meio').append(newLi);
 					$('#meio li').last().children().click(Task.finish);
 				});
-			request.ajax();
+			ajax.execute();
 		});
 	} else {
 		alert("vc tem tarefas de mais em fazendo, termine elas antes");
