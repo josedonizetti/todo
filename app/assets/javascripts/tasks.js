@@ -1,21 +1,40 @@
-var getTask = function(url,success,failure){
-$.getJSON(url)
-	.success(success)
-	.error(failure);
+var Events = {}
+
+Events.keypress = function(key){
+	// 13 == enter
+	if(key.which == 13){
+		$("#edit_form").submit();	
+		return false;
+	}
+	// esc == ???
+	return true;
+};
+
+var Template = function(template,json){
+	this.getAsJQueryElement = function(){
+		return $(Mustache.to_html(template.html(),json));
+	};
 }
 
-var ajaxRequest = function(url,verb,data,successFunction){
-		return function(){
+var Request = function(url, data, successFunction){
+	this.verb = 'POST';
+	this.ajax = function(){
 			$.ajax({
 				url:url,
-				type:verb,
+				type:'POST',
 				data:data,
 				success:successFunction
 			});
-		}
+	}
 }
 
-var edit_task = function(){
+var Task = {}
+
+Task.get = function(url,success,failure){
+	$.getJSON(url).success(success).error(failure);
+};
+
+Task.edit = function(){
 
 	var li = $(this);
 	// if an input already exist doubleclick should do the act as default
@@ -23,57 +42,58 @@ var edit_task = function(){
 		return true;
 	}
 
-	getTask($(this).data("json-url"), function(json) { 
+	Task.get(li.data("json-url"), function(json) { 
+		var input = new Template($('#task_input'),json).getAsJQueryElement();
+		li.html(input);
+		input.keypress(Events.keypress); 	
 
-		var input = $(Mustache.to_html($("#task_input").html(),json));
-		$(li).html(input);
+		var request = new Request('/tasks',{'id':json.id, '_method':'DELETE'}, function(){
+			li.fadeOut();
+		});
 		var delete_link = $("<a id='delete' href='#'></a>");
-		delete_link.click(ajaxRequest("/tasks","POST",{"id":json.id,"_method":"DELETE"},function(){$(li).fadeOut();}));
+		delete_link.click(request.ajax);
+		li.append(delete_link);
 
-		$(li).append(delete_link);
-
-		$(input).keypress(function(key){
-			// 13 == enter
-			if(key.which == 13){
-				$("#edit_form").submit();	
-				return false;
-			}
-			// esc == ???
-			return true;
-		}); 	
 	});
 
-}
+};
 
-var clear_link = function(){
+Task.clear  = function(){
 	var li = $(this).parent();
-	getTask($(li).data('json-url'),function(json){
-			ajaxRequest('/tasks/clear','POST',{"id":json.id},function(){$(li).fadeOut();})();
+	Task.get(li.data('json-url'),function(json){
+			var request = new Request('/tasks/clear',{'id':json.id},function(){ 
+				li.fadeOut();
+			});
+			request.ajax();
 	});
-}
+};
 
-var finish_link = function(){
+Task.finish = function(){
 	var li = $(this).parent();	
-		getTask($(li).data("json-url"),function(json){
-			ajaxRequest("/tasks/finish",'POST',{'id':json.id},function(){
-				$(li).fadeOut();
-				$("#final").append(Mustache.to_html($("#li").html(),json));
-				$($("#final li").last().children()).click(clear_link);
+		Task.get(li.data("json-url"),function(json){
+			var request = new Request('/tasks/finish',{'id':json.id},function(){
+				li.fadeOut();
+				var newLi = new Template($('#li'),json).getAsJQueryElement();
+				$('#final').append(newLi);
+				$('#final li').last().children().click(Task.clear);
 			
-			})();
+			});
+			request.ajax();
 		});
 }
 
-var start_link = function(){
+Task.start = function(){
 	var li = $(this).parent();	
 	var lis  = $("#meio").children();
 	if(lis.size() <= 4){
-		getTask($(li).data("json-url"),function(json){
-			ajaxRequest("/tasks/start","POST",{"id":json.id},function(){
-					$(li).fadeOut();
-					$("#meio").append(Mustache.to_html($("#li").html(),json));
-					$($("#meio li").last().children()).click(finish_link);
-				})();
+		Task.get(li.data("json-url"),function(json){
+			var request = new Request('/tasks/start',{'id':json.id},function(){
+					li.fadeOut();
+					var newLi = new Template($('#li'),json).getAsJQueryElement();
+					$('#meio').append(newLi);
+					$('#meio li').last().children().click(Task.finish);
+				});
+			request.ajax();
 		});
 	} else {
 		alert("vc tem tarefas de mais em fazendo, termine elas antes");
@@ -82,8 +102,8 @@ var start_link = function(){
 
 
 $(document).ready(function() {
-	$("#inicio li").dblclick(edit_task);
-	$(".start_link").click(start_link);
-	$(".finish_link").click(finish_link);
-	$(".clear_link").click(clear_link);
+	$("#inicio li").dblclick(Task.edit);
+	$(".start_link").click(Task.start);
+	$(".finish_link").click(Task.finish);
+	$(".clear_link").click(Task.clear);
 });
