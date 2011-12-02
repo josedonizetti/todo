@@ -99,19 +99,18 @@ Task.start = function(){
 	} else {
 		alert("vc tem tarefas de mais em fazendo, termine elas antes");
 	}
-}
+};
 
 Task.finish = function(){
 	var li = $(this).parent();	
 	Li.remove(li,URLs.FINISH,Li.create('final'));
     //new Li(li).remove(url.FINISH).create('final).execute();	
-}
+};
 
 Task.clear  = function(){
 	var li = $(this).parent();
 	Li.remove(li,URLs.FINISH);
 };
-
 
 
 $(document).ready(function() {
