@@ -1,4 +1,4 @@
-var Events = {}
+var Events = {};
 
 Events.keypress = function(key){
 	// 13 == enter
@@ -10,113 +10,120 @@ Events.keypress = function(key){
 	return true;
 };
 
-var Template = function(template,json){
+var Template = function(template,data){
 	this.getAsJQueryElement = function(){
-		return $(Mustache.to_html(template.html(),json));
+		return $(Mustache.to_html(template.html(),data));
 	};
-}
-
-var Request = function(url, data, successFunction){
-	this.verb = 'POST';
-	this.execute = function(){
-		$.ajax({
-			url:url,
-			type:'POST',
-			data:data,
-			success:successFunction
-		});
-	}
-}
-
-var Task = {}
-
-Task.get = function(url,success,failure){
-	$.getJSON(url).success(success).error(failure);
 };
 
-Task.edit = function(){
 
+//URLs
+var URLs = {};
+URLs.START = '/tasks/start';
+URLs.FINISH = '/tasks/finish';
+URLs.CLEAR = '/tasks/clear';
+
+//Task
+var Task = function(url){
+	this.start = function(){
+		get(url,function(json){
+			$.post(URLs.START,json,function(){
+				generateANewLi('meio',json,Link.finish);	
+			});
+		});
+	};
+
+	this.clear = function(){
+		get(url,function(json){
+			$.post(URLs.CLEAR,json);
+		});
+
+	};
+
+	this.finish = function(){
+		get(url,function(json){
+			$.post(URLs.FINISH,json,function(){
+				generateANewLi('final',json,Link.clear);	
+			});
+		});
+	};
+
+	this.remove = function(){
+		get(url, function(json) { 
+			json._method = 'DELETE';
+			$.post('/tasks',json);
+		});
+
+	};
+
+	var get = function(url,success){
+		$.getJSON(url).success(success);
+	};
+
+	var generateANewLi = function(div,data,action){
+		var newLi = new Template($('#li'),data).getAsJQueryElement();
+		$('#' + div).append(newLi);
+		$('#' + div + ' li').last().children().click(action);
+	};
+
+};
+
+//events of the links
+var Link = {};
+
+Link.start = function(){
+	var li = $(this).parent();	
+
+	var lis  = $("#meio").children();
+	if(lis.size() <= 4){
+		var task = new Task(li.data('json-url'));
+		task.start();
+		li.fadeOut();
+	} else {
+		alert("vc tem tarefas de mais em fazendo, termine elas antes");
+	}
+};
+
+Link.edit = function(){
 	var li = $(this);
 	// if an input already exist doubleclick should do the act as default
 	if(li.has('input').length == 1){
 		return true;
 	}
 
-	Task.get(li.data("json-url"), function(json) { 
-		var input = new Template($('#task_input'),json).getAsJQueryElement();
-		li.html(input);
-		input.keypress(Events.keypress); 	
+	data = {};
+	data.id = li.attr('id');
+	data.description = li.text();
 
-		var ajax = new Request('/tasks',{'id':json.id, '_method':'DELETE'}, function(){
-			li.fadeOut();
-		});
-		var delete_link = $("<a id='delete' href='#'></a>");
-		delete_link.click(ajax.execute);
-		li.append(delete_link);
-
-	});
-
+	var input = new Template($('#task_input'),data).getAsJQueryElement();
+	li.html(input);
+	
 };
 
-
-var URLs = {};
-URLs.START = '/tasks/start';
-URLs.FINISH = '/tasks/finish';
-URLs.CLEAR = '/tasks/clear';
-
-var Li = {};
-Li.remove = function(li,url,callback,data){
-		Task.get(li.data("json-url"),function(json){
-			
-			data = data || {};
-			data.id = json.id;
-
-			var ajax = new Request(url,data,function(){
-					li.fadeOut();
-					if(callback && (typeof callback == 'function')){
-						callback.call(this,json);
-					}
-			});
-
-			ajax.execute();
-		});
+Link.remove = function(){
+//  var task = new TaskB(li.data('json-url'));
+//	var delete_link = $("<a id='delete' href='#'></a>");
+//	delete_link.click(task.remove);
+//	li.append(delete_link);
 };
 
-Li.create = function(div_id){
-	var callback = function(json){
-		var newLi = new Template($('#li'),json).getAsJQueryElement();
-		$('#' + div_id).append(newLi);
-		$('#' + div_id + 'li').last().children().click(Task.finish);
-	}
-	return callback;
-};
-
-Task.start = function(){
-	var li = $(this).parent();	
-	var lis  = $("#meio").children();
-	if(lis.size() <= 4){
-		Li.remove(li,URLs.START,Li.create('meio'));
-	} else {
-		alert("vc tem tarefas de mais em fazendo, termine elas antes");
-	}
-};
-
-Task.finish = function(){
-	var li = $(this).parent();	
-	Li.remove(li,URLs.FINISH,Li.create('final'));
-    //new Li(li).remove(url.FINISH).create('final).execute();	
-};
-
-Task.clear  = function(){
+Link.clear = function(){
 	var li = $(this).parent();
-	Li.remove(li,URLs.FINISH);
+	var task = new Task(li.data('json-url'));
+	task.clear();
+	li.fadeOut();
 };
 
+Link.finish = function(){
+	var li = $(this).parent();
+	var task = new Task(li.data('json-url'));
+	task.finish();
+	li.fadeOut();
+};
 
 $(document).ready(function() {
-	$("#inicio li").dblclick(Task.edit);
-	//$("#inicio li").dblclick(Li.edit); jquery....Task;
-	$(".start_link").click(Task.start);
-	$(".finish_link").click(Task.finish);
-	$(".clear_link").click(Task.clear);
+	$("#inicio li").dblclick(Link.edit);
+	$(".start_link").click(Link.start);
+	$(".finish_link").click(Link.finish);
+	$(".clear_link").click(Link.clear);
 });
