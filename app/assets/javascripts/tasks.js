@@ -59,19 +59,16 @@ Task.edit = function(){
 };
 
 
-var URLs = {}
-URLs.START = '/tasks/start'
-URLs.FINISH = '/tasks/finish'
-URLs.CLEAR = '/tasks/clear'
+var URLs = {};
+URLs.START = '/tasks/start';
+URLs.FINISH = '/tasks/finish';
+URLs.CLEAR = '/tasks/clear';
 
 var Li = {};
 Li.remove = function(li,url,callback,data){
 		Task.get(li.data("json-url"),function(json){
 			
-			if(!data) { 
-				data = {};
-			}
-
+			data = data || {};
 			data.id = json.id;
 
 			var ajax = new Request(url,data,function(){
@@ -86,11 +83,12 @@ Li.remove = function(li,url,callback,data){
 };
 
 Li.create = function(div_id){
-	return function(json){
+	var callback = function(json){
 		var newLi = new Template($('#li'),json).getAsJQueryElement();
 		$('#' + div_id).append(newLi);
 		$('#' + div_id + 'li').last().children().click(Task.finish);
 	}
+	return callback;
 };
 
 Task.start = function(){
@@ -106,6 +104,7 @@ Task.start = function(){
 Task.finish = function(){
 	var li = $(this).parent();	
 	Li.remove(li,URLs.FINISH,Li.create('final'));
+    //new Li(li).remove(url.FINISH).create('final).execute();	
 }
 
 Task.clear  = function(){
@@ -117,6 +116,7 @@ Task.clear  = function(){
 
 $(document).ready(function() {
 	$("#inicio li").dblclick(Task.edit);
+	//$("#inicio li").dblclick(Li.edit); jquery....Task;
 	$(".start_link").click(Task.start);
 	$(".finish_link").click(Task.finish);
 	$(".clear_link").click(Task.clear);
