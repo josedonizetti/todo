@@ -1,0 +1,56 @@
+        <div id="corpo">
+            <ul id="menu">
+                <li><a href="#">ToDo list</a></li>
+                <li><%= link_to "Logout", "/users/sign_out", :method => :delete %> </li>
+            </ul>
+            <br class="clear" />
+            <div id="primeiro" class="box">
+            	<h2 id="todo-grande">ToDo</h2>
+                <div class="list">
+                	<ul id="inicio">
+                      <%= form_for :task,:html => { :id => "edit_form" } ,:method => :put do %>
+							<% @not_started_tasks.each do |t| %>
+                              <li id="<%=t.id%>" data-json-url="/tasks/<%=t.id%>.json"><a class="start_link" href="#"></a><%= t.description %>.</li>  
+							<% end %>
+						<% end %>
+						<li id="li_description">
+							<%= form_for @task do |t| %>
+                              <%= t.text_field :description, :id => "description", :placeholder => "What do you have ToDo?"%>
+							<% end %>
+						</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="box">
+            	<h2 id="doing-grande">Doing</h2>
+                <div class="list">
+                	<ul id="meio">
+                      <% if not @started_tasks.empty? %>
+						<% @started_tasks.each do |t| %>
+                          <li data-json-url="/tasks/<%=t.id%>.json"><a href="#" class="finish_link"></a><%= t.description %>.</li>  
+						<% end %>
+                      <% else %>
+                      <% end %>
+                    </ul>
+                </div>
+            </div>
+            <div class="box">
+            	<h2 id="done-grande">Done</h2>
+                <div class="list">
+                	<ul id="final">
+						<% @finished_tasks.each do |t| %>
+                          <li data-json-url="/tasks/<%=t.id%>.json"><a class="clear_link" href="#"></a><%= t.description %>.</li>  
+						<% end %>
+                    </ul>
+                    <!-- <a href="#" id="historico">history</a> -->
+                </div>
+            </div>
+        </div>          
+
+	<script type="text/html" id="task_input">
+      <input type='text' id='tasks[{{id}}]' name='tasks[{{id}}]' value='{{description}}'>
+	</script>
+
+    <script type="text/html" id="li">
+      <li data-json-url="/tasks/{{id}}.json">{{description}}<a href="#" class="{{class}}"></a></li>
+    </script>
