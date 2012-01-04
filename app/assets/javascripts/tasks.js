@@ -97,14 +97,15 @@ Link.edit = function(){
 
 	var input = new Template($('#task_input'),data).getAsJQueryElement();
 	li.html(input);
+	li.append($('#delete_link').html());
 	
 };
 
 Link.remove = function(){
-//  var task = new TaskB(li.data('json-url'));
-//	var delete_link = $("<a id='delete' href='#'></a>");
-//	delete_link.click(task.remove);
-//	li.append(delete_link);
+	var li = $(this).parent();
+	var task = new Task(li.data('json-url'));
+	task.remove();
+	li.fadeOut();
 };
 
 Link.clear = function(){
@@ -126,4 +127,17 @@ $(document).ready(function() {
 	$(".start_link").click(Link.start);
 	$(".finish_link").click(Link.finish);
 	$(".clear_link").click(Link.clear);
+	$(".delete_link").live("click",Link.remove);
+
+	$(document).keypress(function(event){
+		if(event.which == 110){
+			$("#description").focus();
+		}
+	});
+	
+	$("#description").keypress(function(event){
+		if(event.which == 0){
+			// should lose focus when on the description's input
+		}
+	});
 });
