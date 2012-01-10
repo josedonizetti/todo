@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
-    
+   
+    respond_to :html, :js
     before_filter :authenticate_user! 
 
 	def index
@@ -13,7 +14,10 @@ class TasksController < ApplicationController
 		@task = Task.new params[:task]
         @task.user = current_user
 		if @task.save
-			redirect_to :action => "index"
+            respond_to do |format|
+              format.js
+            end
+			#redirect_to :action => "index"
 		else
 			render :action => "index"	
 		end

@@ -8,13 +8,13 @@
             	<h2 id="todo-grande">ToDo</h2>
                 <div class="list">
                 	<ul id="inicio">
-                      <%= form_for :task,:html => { :id => "edit_form" } ,:method => :put do %>
+                      <%= form_for :task,:html => { :id => "edit_form" } ,:method => :put , :remote => true do %>
 							<% @not_started_tasks.each do |t| %>
                               <li id="<%=t.id%>" data-json-url="/tasks/<%=t.id%>.json"><a class="start_link" href="#"></a><%= t.description %>.</li>  
 							<% end %>
 						<% end %>
 						<li id="li_description">
-							<%= form_for @task do |t| %>
+                          <%= form_for @task , :remote => true do |t| %>
                               <%= t.text_field :description, :id => "description", :placeholder => "What do you have ToDo?"%>
 							<% end %>
 						</li>

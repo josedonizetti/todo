@@ -1,0 +1,11 @@
+var input = $("#description");
+
+var data = {}
+data.id  = <%= @task.id %>;
+data.description =  "<%= @task.description %>";
+
+var newLi = new Template($('#li'),data).getAsJQueryElement();
+$('#li_description').before(newLi);
+
+input.val("");
+
