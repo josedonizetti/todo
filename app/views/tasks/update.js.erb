@@ -1,0 +1,9 @@
+var change_li = function(id,description){
+}
+
+<% @tasks_edited.each do |task| %>
+  var id = <%= task.id %>;
+  var description = "<%= task.description %>";
+  $("#"+id).html("<a class='start_link' href='#'></a>"+description);
+<% end %>
+

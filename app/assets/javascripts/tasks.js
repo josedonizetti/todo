@@ -129,6 +129,7 @@ $(document).ready(function() {
 	$(".delete_link").live('click',Link.remove);
 
 	$(document).keypress(function(event){
+		// n = 110
 		if(event.which == 110){
 			$("#description").focus();
 		}
@@ -139,4 +140,11 @@ $(document).ready(function() {
 			// should lose focus when on the description's input
 		}
 	});
+
+	$("#edit_form input").keypress(function(event){
+		if(event.which == 110){
+			// should lose focus when on the description's input
+		}
+	});
+
 });

@@ -24,13 +24,18 @@ class TasksController < ApplicationController
 	end
 
 	def update
-		tasks = params[:tasks]
-        tasks.each do |key,value|
+		@tasks = params[:tasks]
+        @tasks_edited = []
+        @tasks.each do |key,value|
           task = Task.find key
           task.description = value
           task.save
+          @tasks_edited << task
         end
-		redirect_to :action => :index
+	#	redirect_to :action => :index
+        respond_to do |format|
+          format.js
+        end
 	end
 
 	def show
