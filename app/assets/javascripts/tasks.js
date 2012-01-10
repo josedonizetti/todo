@@ -28,7 +28,7 @@ var Task = function(url){
 	this.start = function(){
 		get(url,function(json){
 			$.post(URLs.START,json,function(){
-				generateANewLi('meio',json,Link.finish);	
+				generateANewLi('meio',json);	
 			});
 		});
 	};
@@ -43,7 +43,7 @@ var Task = function(url){
 	this.finish = function(){
 		get(url,function(json){
 			$.post(URLs.FINISH,json,function(){
-				generateANewLi('final',json,Link.clear);	
+				generateANewLi('final',json);	
 			});
 		});
 	};
@@ -60,10 +60,9 @@ var Task = function(url){
 		$.getJSON(url).success(success);
 	};
 
-	var generateANewLi = function(div,data,action){
+	var generateANewLi = function(div,data){
 		var newLi = new Template($('#li'),data).getAsJQueryElement();
 		$('#' + div).append(newLi);
-		$('#' + div + ' li').last().children().click(action);
 	};
 
 };
@@ -124,10 +123,10 @@ Link.finish = function(){
 
 $(document).ready(function() {
 	$("#inicio li").dblclick(Link.edit);
-	$(".start_link").click(Link.start);
-	$(".finish_link").click(Link.finish);
-	$(".clear_link").click(Link.clear);
-	$(".delete_link").live("click",Link.remove);
+	$(".start_link").live('click',Link.start);
+	$(".finish_link").live('click',Link.finish);
+	$(".clear_link").live('click',Link.clear);
+	$(".delete_link").live('click',Link.remove);
 
 	$(document).keypress(function(event){
 		if(event.which == 110){
