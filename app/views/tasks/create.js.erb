@@ -3,9 +3,10 @@ var input = $("#description");
 var data = {}
 data.id  = <%= @task.id %>;
 data.description =  "<%= @task.description %>";
+data.class = 'start_link';
 
 var newLi = new Template($('#li'),data).getAsJQueryElement();
-$('#li_description').before(newLi);
+$('#edit_form').append(newLi);
 
 input.val("");
 
